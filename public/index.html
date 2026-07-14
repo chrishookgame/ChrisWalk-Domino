@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dominó Online</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="auth" class="screen">
+    <h1>Dominó Online</h1>
+    <div class="card">
+      <div class="tabs">
+        <button id="tab-login" class="tab-btn selected">Iniciar sesión</button>
+        <button id="tab-register" class="tab-btn">Crear cuenta</button>
+      </div>
+
+      <div id="login-form">
+        <label>Email</label>
+        <input id="login-email" type="text" placeholder="tu-email@ejemplo.com" />
+        <label>Contraseña</label>
+        <input id="login-password" type="password" placeholder="Tu contraseña" />
+        <button id="login-btn">Entrar</button>
+      </div>
+
+      <div id="register-form" class="hidden">
+        <label>Tu nombre de usuario (público)</label>
+        <input id="reg-name" type="text" placeholder="Cómo te van a ver los demás" maxlength="18" />
+        <label>Tu nombre completo (legal)</label>
+        <input id="reg-legalname" type="text" placeholder="Nombre y apellido, como en tu documento" />
+        <label>Teléfono</label>
+        <input id="reg-phone" type="text" placeholder="+56 9 1234 5678" />
+        <label>País</label>
+        <select id="reg-country"></select>
+        <label>Foto de perfil (opcional)</label>
+        <input id="reg-avatar" type="file" accept="image/*" />
+        <label>Email</label>
+        <input id="reg-email" type="text" placeholder="tu-email@ejemplo.com" />
+        <label>Contraseña (mínimo 6 caracteres)</label>
+        <input id="reg-password" type="password" placeholder="Elegí una contraseña" />
+        <label>Tu email de PayPal (para recibir tus regalos)</label>
+        <input id="reg-paypal" type="text" placeholder="tu-email-de-paypal@ejemplo.com" />
+        <button id="register-btn">Crear cuenta</button>
+      </div>
+
+      <p id="auth-error"></p>
+    </div>
+  </div>
+
+  <div id="spectate-prompt" class="screen hidden">
+    <h1>Vas a mirar en vivo</h1>
+    <div class="card">
+      <label>Tu nombre</label>
+      <input id="spectate-name-input" type="text" placeholder="Cómo te van a ver los demás" maxlength="18" />
+      <button id="spectate-enter-btn">Entrar a mirar</button>
+      <p style="font-size:12px;color:#9fc9b8;text-align:center;margin-top:10px;">
+        ¿Querés poder regalar gemas a los jugadores? <a href="#" id="spectate-login-link" style="color:#e0a63e;">Creá una cuenta o iniciá sesión</a>
+      </p>
+    </div>
+  </div>
+
+  <div id="spectate" class="screen hidden">
+    <h2>Mirando en vivo — Sala <span id="spectate-code"></span></h2>
+    <div id="spectate-info" style="text-align:center;font-size:13px;color:#cfe3da;"></div>
+  </div>
+
+  <div id="verify-screen" class="screen hidden">
+    <h1>Confirmá tu email</h1>
+    <div class="card">
+      <p style="font-size:13px;color:#cfe3da;">Te mandamos un código de 6 dígitos a tu email. Escribilo acá para confirmar tu cuenta.</p>
+      <label>Código de confirmación</label>
+      <input id="verify-code-input" type="text" maxlength="6" placeholder="123456" />
+      <button id="verify-submit-btn">Confirmar</button>
+      <p style="font-size:12px;text-align:center;margin-top:10px;">
+        ¿No te llegó? <a href="#" id="resend-code-link" style="color:#e0a63e;">Reenviar código</a>
+      </p>
+      <p id="verify-error"></p>
+    </div>
+  </div>
+
+  <div id="lobby" class="screen hidden">
+    <h1>Dominó Online</h1>
+    <div class="card">
+      <p id="lobby-name-label" style="font-size:13px;color:#cfe3da;"></p>
+
+      <div class="lobby-section">
+        <h3>Crear una sala nueva</h3>
+        <label>¿Cuántos van a jugar?</label>
+        <div class="cap-row">
+          <button class="cap-btn" data-cap="2">2</button>
+          <button class="cap-btn" data-cap="3">3</button>
+          <button class="cap-btn" data-cap="4">4</button>
+        </div>
+        <div id="handsize-row" class="cap-row">
+          <label style="width:100%;">¿Cuántas fichas por mano?</label>
+          <button class="handsize-btn" data-size="7">7</button>
+          <button class="handsize-btn" data-size="9">9</button>
+        </div>
+        <button id="create-btn">Crear sala</button>
+      </div>
+
+      <div class="lobby-section">
+        <h3>Unirte a una sala</h3>
+        <input id="code-input" type="text" placeholder="Código de la sala" maxlength="5" style="text-transform:uppercase;" />
+        <button id="join-btn">Unirme</button>
+      </div>
+
+      <p id="lobby-error"></p>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>🔴 En vivo ahora</h3>
+      <p style="font-size:12px;color:#9fc9b8;">Cualquier partida que esté jugándose ahora mismo, la puede ver cualquiera.</p>
+      <div id="live-rooms-list"></div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>Buscar jugadores</h3>
+      <input id="search-input" type="text" placeholder="Escribí un nombre..." />
+      <div id="search-results"></div>
+
+      <h3 style="margin-top:20px;">Gente que seguís</h3>
+      <div id="following-list"></div>
+    </div>
+
+    <div class="card" style="margin-top:16px;">
+      <h3>Tu perfil y monetización</h3>
+      <img id="profile-avatar" src="" alt="" style="width:64px;height:64px;border-radius:50%;object-fit:cover;display:none;margin:0 auto 10px;" />
+      <p id="profile-followers" style="font-size:13px;color:#cfe3da;"></p>
+
+      <label>Email de PayPal</label>
+      <input id="profile-paypal" type="text" />
+      <label>Banco (opcional)</label>
+      <input id="profile-bank-name" type="text" placeholder="Nombre del banco" />
+      <label>Número de cuenta</label>
+      <input id="profile-bank-number" type="text" placeholder="Número de cuenta bancaria" />
+      <label>Titular de la cuenta</label>
+      <input id="profile-bank-holder" type="text" placeholder="Nombre del titular" />
+      <button id="save-payout-btn">Guardar datos de cobro</button>
+      <p id="payout-msg" style="font-size:12px;color:#cfe3da;"></p>
+
+      <div id="monetization-section" style="margin-top:18px;padding-top:14px;border-top:1px solid #2f6b58;">
+        <p id="monetization-status" style="font-size:13px;"></p>
+        <div id="monetization-form" class="hidden">
+          <label>Subí una foto de tu documento de identidad</label>
+          <input id="kyc-file" type="file" accept="image/*,.pdf" />
+          <button id="submit-monetization-btn">Enviar solicitud de monetización</button>
+        </div>
+        <p id="monetization-msg" style="font-size:12px;color:#cfe3da;"></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="waiting" class="screen hidden">
+    <h2>Sala <span id="waiting-code"></span></h2>
+    <p>Compartí este código con los demás jugadores:</p>
+    <div id="waiting-code-big"></div>
+    <p id="waiting-count"></p>
+    <ul id="waiting-list"></ul>
+    <button id="copy-spectate-link">Copiar link para que otros miren en vivo</button>
+    <p id="spectate-link-msg" style="font-size:12px;text-align:center;color:#cfe3da;"></p>
+  </div>
+
+  <div id="game" class="screen hidden">
+    <div id="video-bar"></div>
+
+    <div id="wallet-bar">
+      <span>💎 <span id="wallet-balance">0</span> gemas</span>
+      <button id="buy-gems-btn">Comprar gemas</button>
+      <button id="withdraw-btn">Retirar</button>
+    </div>
+
+    <div id="top-info">
+      <span id="room-label"></span>
+      <span id="turn-label"></span>
+      <span id="spectator-count"></span>
+      <button id="share-btn" title="Compartir">🔗 Compartir</button>
+    </div>
+
+    <div id="turn-order"></div>
+
+    <div id="opponents"></div>
+
+    <div class="mesa-swatches">
+      <button class="mesa-swatch active" data-felt="green" title="Tapete verde"></button>
+      <button class="mesa-swatch" data-felt="red" title="Tapete rojo"></button>
+      <button class="mesa-swatch" data-felt="blue" title="Tapete azul"></button>
+      <button class="mesa-swatch" data-felt="purple" title="Tapete morado"></button>
+      <span style="width:1px;background:#2f6b58;margin:0 4px;"></span>
+      <button class="style-swatch active" data-style="numbers">🔢</button>
+      <button class="style-swatch" data-style="dots">⚫</button>
+    </div>
+
+    <div id="tiktok-rail">
+      <button class="rail-btn" id="rail-like-btn">❤️<span id="rail-like-count">0</span></button>
+      <button class="rail-btn" id="rail-gift-btn">🎁</button>
+      <button class="rail-btn" id="rail-chat-btn">💬</button>
+      <button class="rail-btn" id="rail-share-btn">🔗</button>
+    </div>
+
+    <div id="board-wrap">
+      <div id="boneyard-pile" class="hidden">
+        <span id="boneyard-count-label"></span>
+        <div id="boneyard-row"></div>
+      </div>
+      <div id="table-mesa">
+        <div id="mesa-logo">Chris Domino</div>
+        <div id="board-inner"></div>
+      </div>
+    </div>
+
+    <div id="play-actions" class="hidden">
+      <p id="play-actions-label"></p>
+      <div id="play-actions-buttons"></div>
+    </div>
+
+    <div id="my-area">
+      <div id="my-hand"></div>
+      <button id="pass-btn" class="hidden">Pasar (no tengo ficha que encaje)</button>
+      <button id="undo-btn" class="hidden">Deshacer última jugada</button>
+    </div>
+
+    <div id="gameover-wrap" class="hidden">
+      <div class="card">
+        <p id="gameover-text"></p>
+        <button id="rematch-btn">Jugar de nuevo</button>
+      </div>
+    </div>
+
+    <div id="live-chat">
+      <div id="chat-messages"></div>
+      <div id="chat-input-row">
+        <input id="chat-input" type="text" placeholder="Escribí un comentario..." maxlength="200" />
+        <button id="chat-send-btn">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="buy-modal" class="end-picker hidden">
+    <div class="card" style="max-height:80vh;overflow-y:auto;">
+      <h3>Comprar gemas</h3>
+      <p id="paypal-warning" class="hidden">La tienda todavía no está configurada con PayPal.</p>
+      <div id="pack-grid"></div>
+      <button id="close-buy-modal">Cerrar</button>
+    </div>
+  </div>
+
+  <div id="withdraw-modal" class="end-picker hidden">
+    <div class="card">
+      <h3>Retirar gemas</h3>
+      <p style="font-size:13px;color:#cfe3da;">100 gemas ≈ USD $1.00. Se descuenta una comisión de plataforma del 25%; recibís el 75% en tu PayPal registrado.</p>
+      <label>Cantidad de gemas a retirar</label>
+      <input id="withdraw-amount" type="text" placeholder="Ej: 500" />
+      <button id="submit-withdraw">Pedir retiro</button>
+      <button id="close-withdraw-modal">Cerrar</button>
+      <p id="withdraw-msg"></p>
+    </div>
+  </div>
+
+  <div id="gift-toast"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://meet.jit.si/external_api.js"></script>
+  <script src="countries.js"></script>
+  <script src="client.js"></script>
+</body>
+</html>

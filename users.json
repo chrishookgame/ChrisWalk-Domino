@@ -1,0 +1,46 @@
+{
+  "mundotravelspa@gmail.com": {
+    "email": "mundotravelspa@gmail.com",
+    "name": "Dolou",
+    "legalName": "SAINTAVOI CHRISTOPH",
+    "phone": "+56993324648",
+    "country": "Chile",
+    "avatarUrl": "/avatars/1784059656989_h43e53.png",
+    "passwordHash": "$2b$10$eCOkY34l8EKd/GCz8egpHO0kXDotBxKriGPcdFYX1VEyKypVzsjA.",
+    "paypalEmail": "mundotravelspa@gmail.com",
+    "bankName": "",
+    "bankAccountNumber": "",
+    "bankAccountHolder": "",
+    "balance": 0,
+    "following": [],
+    "monetization": {
+      "status": "no_solicitado"
+    },
+    "emailVerified": true,
+    "verificationCode": null,
+    "verificationExpires": 1784061900126,
+    "createdAt": "2026-07-14T20:07:37.105Z"
+  },
+  "christophsaintavoi@gmail.com": {
+    "email": "christophsaintavoi@gmail.com",
+    "name": "ZOLOU",
+    "legalName": "ZOULOU MAURA",
+    "phone": "+56961879892",
+    "country": "Chile",
+    "avatarUrl": "/avatars/1784061300633_gvfh1h.png",
+    "passwordHash": "$2b$10$mlQ/mGUbEy/TRhyidNLaNOpOzbEUVx92PZYAp5n44D83EgyksDKdS",
+    "paypalEmail": "christophsaintavoi@gmail.com",
+    "bankName": "",
+    "bankAccountNumber": "",
+    "bankAccountHolder": "",
+    "balance": 0,
+    "following": [],
+    "monetization": {
+      "status": "no_solicitado"
+    },
+    "emailVerified": true,
+    "verificationCode": null,
+    "verificationExpires": 1784062200709,
+    "createdAt": "2026-07-14T20:35:00.709Z"
+  }
+}
