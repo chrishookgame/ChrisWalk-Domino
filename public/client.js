@@ -289,8 +289,11 @@ setInterval(() => {
 }, 8000);
 
 function connectSocket() {
-  socket = io({ auth: { token: authToken } });
+  socket = io("https://chriswalk-domino-api.onrender.com", {
+    auth: { token: authToken }
+  });
   attachSocketHandlers();
+}
 }
 
 let watchingAsGuest = false;
