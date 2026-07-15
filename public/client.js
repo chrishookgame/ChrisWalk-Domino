@@ -294,8 +294,6 @@ function connectSocket() {
   });
   attachSocketHandlers();
 }
-}
-
 let watchingAsGuest = false;
 
 function startSpectating(name) {
