@@ -310,7 +310,6 @@ if (authToken) {
     watchingAsGuest = true;
     socket = io(SERVER_URL, { auth: {} });
 }
-  }
   socket.on("connect", () => socket.emit("spectateRoom", { code: watchCode, name: name || myName || "Espectador" }));
   socket.on("errorMsg", (msg) => { document.getElementById("spectate-info").textContent = msg; });
   socket.on("balance", (bal) => {
