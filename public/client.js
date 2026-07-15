@@ -1138,3 +1138,19 @@ function closeGiftPicker() {
   if (existing) existing.remove();
   document.removeEventListener("click", closeGiftPickerOnce);
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const logoutBtn = document.getElementById("logout-btn");
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("domino_token");
+      localStorage.removeItem("domino_display_name");
+
+      if (socket) {
+        socket.disconnect();
+      }
+
+      location.reload();
+    });
+  }
+});
