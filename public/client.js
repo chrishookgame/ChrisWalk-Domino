@@ -301,11 +301,14 @@ function startSpectating(name) {
   spectateEl.classList.remove("hidden");
   document.getElementById("spectate-code").textContent = watchCode;
 
-  if (authToken) {
-    socket = io({ auth: { token: authToken } });
-  } else {
+  const SERVER_URL = "https://chriswalk-domino-api.onrender.com";
+
+if (authToken) {
+    socket = io(SERVER_URL, { auth: { token: authToken } });
+} else {
     watchingAsGuest = true;
-    socket = io({ auth: {} });
+    socket = io(SERVER_URL, { auth: {} });
+}
   }
   socket.on("connect", () => socket.emit("spectateRoom", { code: watchCode, name: name || myName || "Espectador" }));
   socket.on("errorMsg", (msg) => { document.getElementById("spectate-info").textContent = msg; });
